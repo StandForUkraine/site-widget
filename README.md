@@ -32,12 +32,7 @@ unmount();
 <script type="text/javascript">
   (function (w, d, t, u, a, m, f) {
     f = function () {
-      const unmount = w.StandForUkraineWidget.init('#root', {
-        variant: 'strip',
-        settings: {
-          zIndex: 20000,
-        },
-      });
+      const unmount = w.StandForUkraineWidget.init('#root');
     };
 
     a = d.createElement(t);
