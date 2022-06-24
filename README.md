@@ -50,7 +50,7 @@ unmount();
     window,
     document,
     'script',
-    '//localhost:${port}/index.js'
+    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget/artifacts/index.min.js'
   );
 </script>
 ```
