@@ -1,6 +1,6 @@
 {
   "name": "stand-for-ukraine-widget",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "artifacts/index.min.js",
   "types": "artifacts/index.d.ts",
