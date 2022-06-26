@@ -13,9 +13,7 @@
   "author": "KonstantinKai<kosyak46@gmail.com>",
   "license": "MIT",
   "files": [
-    "artifacts/index.min.js",
-    "artifacts/index.d.ts",
-    "artifacts/lib/createWidget.d.ts"
+    "artifacts/**/*"
   ],
   "devDependencies": {
     "@rollup/plugin-html": "^0.2.4",

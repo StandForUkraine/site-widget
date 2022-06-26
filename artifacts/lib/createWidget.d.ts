@@ -1,21 +1,23 @@
 export declare type WidgetVariant = 'button' | 'strip';
 declare type WidgetPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 declare type WidgetStripColor = 'black' | 'ua-colors';
-declare type WidgetSettings<V extends WidgetVariant> = V extends 'button' ? {
-    position?: WidgetPosition;
+declare type WidgetVariantCommonSettings = {
+    zIndex?: number;
     margin?: number;
-} : {
-    color?: WidgetStripColor;
 };
-export interface WidgetOptions<V extends WidgetVariant> {
-    variant?: V;
-    settings?: WidgetSettings<V> & {
-        zIndex?: number;
+export interface WidgetOptions {
+    variant?: WidgetVariant;
+    ['button']?: WidgetVariantCommonSettings & {
+        position?: WidgetPosition;
+    };
+    ['strip']?: WidgetVariantCommonSettings & {
+        color?: WidgetStripColor;
+        position?: 'static' | 'fixed';
     };
 }
 declare type WidgetResult = [
     mount: (container: string | HTMLElement) => void,
     unmount: () => void
 ];
-export declare function createWidget<V extends WidgetVariant = 'button'>(options?: WidgetOptions<V>): WidgetResult;
+export declare function createWidget(options?: WidgetOptions): WidgetResult;
 export {};

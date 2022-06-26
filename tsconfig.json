@@ -11,5 +11,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["./src/**/*", "./rollup/**/*"]
+  "include": ["src/**/*", "rollup/**/*"]
 }

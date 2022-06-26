@@ -4,35 +4,17 @@
 
 | Minified Size | Gzipped Size |
 | :-----------: | :----------: |
-|   `6.34 KB`   |  `2.77 KB`   |
+|   `6.6 KB`    |  `2.97 KB`   |
 
 ### Usage:
 
-- in code:
-
-```js
-import StandForUkraineWidget from 'some-source';
-
-console.log(StandForUkraineWidget.version); // x.x.x
-
-const options = {};
-
-// Creates and mount the widget
-// Expects as the first argument css selector or physical dom node
-const unmount = StandForUkraineWidget.init('#element-id', options);
-
-// ...
-// Later if you need remove widget
-unmount();
-```
-
-- script
+- Paste the following snippet via script tag to the html before closing the body tag
 
 ```js
 <script type="text/javascript">
   (function (w, d, t, u, a, m, f) {
     f = function () {
-      const unmount = w.StandForUkraineWidget.init('#root');
+      w.unmountStandForUkraineWidget = w.StandForUkraineWidget.init(document.body, /* options go here */);
     };
 
     a = d.createElement(t);
@@ -50,12 +32,37 @@ unmount();
 </script>
 ```
 
+- Create load function or method in your source code
+
+```js
+let loaded = false;
+function init() {
+  loaded = true;
+  window.unmountStandForUkraineWidget = window.StandForUkraineWidget.init(
+    document.body /* options go here */,
+  );
+}
+
+function loadWidgetCode() {
+  if (loaded) return;
+
+  const tag = document.createElement('script');
+  const firstTag = document.getElementsByTagName('script')[0];
+  tag.async = 1;
+  tag.onload = init; // mount the widget;
+  tag.src =
+    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget/artifacts/index.min.js';
+  firstTag.parentNode.insertBefore(a, m);
+}
+```
+
 ### Options:
 
-| Key                 | Type                                                           | Default         | Description                                               |
-| ------------------- | -------------------------------------------------------------- | --------------- | --------------------------------------------------------- |
-| `variant`           | `'button' \| 'strip'`                                          | `'button'`      | Choose from 2 view variants                               |
-| `settings.zIndex`   | `number`                                                       | `10000`         | Override default z-index for widget and dialog            |
-| `settings.position` | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'bottom-left'` | Position of the widget (only for `button` variant)        |
-| `settings.margin`   | `number`                                                       | `20`            | Widget margin (only for `button` variant)                 |
-| `settings.color`    | `black`                                                        | `'black'`       | Choose widget background color (only for `strip` variant) |
+| Key                        | Type                                                           | Default                      | Description                                    |
+| -------------------------- | -------------------------------------------------------------- | ---------------------------- | ---------------------------------------------- |
+| `variant`                  | `'button' \| 'strip'`                                          | `'button'`                   | Choose from 2 view variants                    |
+| `button.position`          | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'bottom-left'`              | Button position                                |
+| `strip.position`           | `'static' \| 'fixed'`                                          | `'fixed'`                    | Strip position                                 |
+| `strip.color`              | `'black' \| 'ua-colors'`                                       | `'black'`                    | Choose widget background color                 |
+| `{strip \| button}.margin` | `number`                                                       | `20 // button`, `0 // strip` | Widget margin                                  |
+| `{strip \| button}.zIndex` | `number`                                                       | `10000`                      | Override default z-index for widget and dialog |

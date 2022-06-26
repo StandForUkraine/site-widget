@@ -34,20 +34,43 @@ const enum ClassNames {
   dialogCloseButton,
 }
 
+let u: undefined;
+const isDefined = (arg: unknown): arg is NonNullable<typeof arg> => typeof arg !== 'undefined' && arg !== null;
+const cssPosition = (
+  ...[p, t, r, b, l]: Partial<[p: 'absolute' | 'fixed' | 'relative', t: number, r: number, b: number, l: number]>
+): string => {
+  let style = '';
+  if (isDefined(p)) style += `position:${p};`;
+  if (isDefined(t)) style += `top:${t}px;`;
+  if (isDefined(r)) style += `right:${r}px;`;
+  if (isDefined(b)) style += `bottom:${b}px;`;
+  if (isDefined(l)) style += `left:${l}px;`;
+  return style;
+};
+const cssFlex = (
+  ...[a, j, f]: Partial<[alignItems: string, justifyContent: string, flexDirection: string]>
+): string => {
+  let style = 'display:flex;';
+  if (isDefined(a)) style += `align-items:${a};`;
+  if (isDefined(j)) style += `justify-content:${j};`;
+  if (isDefined(f)) style += `flex-direction:${f};`;
+  return style;
+};
+
 const defaultStyles = {
-  [ClassNames.buttonRoot]: ({ zIndex }: Record<string, string | number>) => `display:flex;align-items:center;justify-content:center;position:fixed;z-index:${zIndex};height:40px;width:40px;border-radius:50%;cursor:pointer;box-shadow:0 10px 16px rgba(42,42,71,.06);background:linear-gradient(to bottom,${flagColors[0]} 50%,${flagColors[1]} 50%);`,
-  [ClassNames.buttonPositionTopLeft]: ({ margin }: Record<string, string | number>) => `top:${margin}px;left:${margin}px`,
-  [ClassNames.buttonPositionTopRight]: ({ margin }: Record<string, string | number>) => `top:${margin}px;right:${margin}px`,
-  [ClassNames.buttonPositionBottomRight]: ({ margin }: Record<string, string | number>) => `bottom:${margin}px;left:${margin}px`,
-  [ClassNames.buttonPositionBottomLeft]: ({ margin }: Record<string, string | number>) => `bottom:${margin}px;left:${margin}px`,
-  [ClassNames.stripRoot]: `height:35px;text-align:center;font-family:${sysFontFamily};display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;font-weight:400;line-height:19px`,
-  [ClassNames.stripColorBlack]: `background-color:#000;color:#fff`,
-  [ClassNames.stripColorUaColors]: `background:linear-gradient(to right,${flagColors[0]} 50%,${flagColors[1]} 50%);color:#000;`,
-  [ClassNames.overlay]: ({ zIndex }: Record<string, string | number>) => `position:fixed;z-index:${zIndex};top:0;right:0;bottom:0;left:0;background-color:rgba(0,0,0,.2);display:flex;justify-content:center;align-items:center;`,
-  [ClassNames.dialog]: `position:relative;background-color:#fff;display:flex;flex-direction:column;align-items:center;width:200px;border-radius:12px;`,
+  [ClassNames.buttonRoot]: ({ zIndex }: Record<string, string | number>) => `${cssFlex('center', 'center')}${cssPosition('fixed')}z-index:${zIndex};height:40px;width:40px;border-radius:50%;cursor:pointer;box-shadow:0 10px 16px rgba(42,42,71,.06);background:linear-gradient(to bottom,${flagColors[0]} 50%,${flagColors[1]} 50%);`,
+  [ClassNames.buttonPositionTopLeft]: ({ margin }: Record<string, string | number>) => cssPosition(u, margin as number, u, u, margin as number),
+  [ClassNames.buttonPositionTopRight]: ({ margin }: Record<string, string | number>) => cssPosition(u, margin as number, margin as number),
+  [ClassNames.buttonPositionBottomRight]: ({ margin }: Record<string, string | number>) => cssPosition(u, u, margin as number, margin as number, u),
+  [ClassNames.buttonPositionBottomLeft]: ({ margin }: Record<string, string | number>) => cssPosition(u, u, u, margin as number, margin as number),
+  [ClassNames.stripRoot]: ({ margin, position }: Record<string, string | number>) => `text-align:center;font-family:${sysFontFamily};${cssFlex('center', 'center')}cursor:pointer;font-weight:400;line-height:19px;;${position === 'fixed' ? cssPosition('fixed', margin as number, margin as number, u, margin as number) : `margin:${margin}px;`}`,
+  [ClassNames.stripColorBlack]: `background-color:#000;color:#fff;height:35px;font-size:16px;`,
+  [ClassNames.stripColorUaColors]: `background:linear-gradient(to right,${flagColors[0]} 50%,${flagColors[1]} 50%);color:#000;height:26px;font-size:15px;`,
+  [ClassNames.overlay]: ({ zIndex }: Record<string, string | number>) => `z-index:${zIndex};${cssPosition('fixed', 0, 0, 0, 0)}background-color:rgba(0,0,0,.2);${cssFlex('center', 'center')}`,
+  [ClassNames.dialog]: `${cssPosition('relative')};background-color:#fff;${cssFlex(u, u, 'column')}align-items:center;width:200px;border-radius:12px;`,
   [ClassNames.dialogLink]: `text-decoration:none;padding:24px 0;font-weight:700;font-family:${sysFontFamily};font-size:16px;line-height:20px;width:100%;text-align:center;color:#2b2b2d;border-bottom:1px solid #e7e8e8;`,
   [ClassNames.dialogLinkLast]: `border-bottom-width:0!important;`,
-  [ClassNames.dialogCloseButton]: `position:absolute;top:-7px;right:-7px;cursor:pointer;`
+  [ClassNames.dialogCloseButton]: `${cssPosition('absolute', -7, -7)}cursor:pointer;`
 } as const;
 
 export type WidgetVariant =
@@ -60,20 +83,19 @@ type WidgetPosition =
   | 'bottom-left'
   | 'bottom-right';
 
-type WidgetStripColor = 'black' | 'ua-colors';
+type WidgetStripColor =
+  | 'black'
+  | 'ua-colors';
 
-type WidgetSettings<V extends WidgetVariant> = V extends 'button' ? {
-  position?: WidgetPosition;
+type WidgetVariantCommonSettings = {
+  zIndex?: number;
   margin?: number;
-} : {
-  color?: WidgetStripColor;
 };
 
-export interface WidgetOptions<V extends WidgetVariant> {
-  variant?: V;
-  settings?: WidgetSettings<V> & {
-    zIndex?: number;
-  };
+export interface WidgetOptions {
+  variant?: WidgetVariant;
+  ['button']?: WidgetVariantCommonSettings & { position?: WidgetPosition; };
+  ['strip']?: WidgetVariantCommonSettings & { color?: WidgetStripColor; position?: 'static' | 'fixed'; };
 }
 
 type WidgetResult = [
@@ -97,17 +119,17 @@ const vendor = 'stand-for-ukraine';
 
 const defaultSettings = {
   'button': { position: 'bottom-left', margin: 20, zIndex: 10000 },
-  'strip': { color: 'black', zIndex: 10000 },
+  'strip': { color: 'black', zIndex: 10000, margin: 0, position: 'fixed' },
 };
 
-export function createWidget<V extends WidgetVariant = 'button'>(options?: WidgetOptions<V>): WidgetResult {
+export function createWidget(options?: WidgetOptions): WidgetResult {
   const doc = document;
   const id = gid++;
   const prefix = `${vendor}-${id}`;
   const variant = options?.variant ?? 'button';
-  const settings: WidgetSettings<V> = {
+  const settings = {
     ...defaultSettings[variant],
-    ...(options?.settings ?? {})
+    ...(options?.[variant] ?? {}),
   };
 
   let mounted = false;
@@ -117,15 +139,15 @@ export function createWidget<V extends WidgetVariant = 'button'>(options?: Widge
 
   function widgetHtml(): string {
     if (variant === 'strip') {
-      const color = (settings as WidgetSettings<'strip'>).color!;
+      const color = (settings as WidgetOptions['strip'])!.color!;
       return `
       <div id="${prefix}" class="${cls([ClassNames.stripRoot, colorsAliasToEnum[color]])}">
-        Help Ukraine ${color !== 'ua-colors' ? '🇺🇦' : ''} Stop the war
+        Help Ukraine ${color !== 'ua-colors' ? '🇺🇦' : '&nbsp;&nbsp;&nbsp;&nbsp;'} Stop the war
       </div>
       `;
     }
 
-    const position = (settings as WidgetSettings<'button'>).position!;
+    const position = (settings as WidgetOptions['button'])!.position!;
     return `
     <div id="${prefix}" class="${cls([ClassNames.buttonRoot, positionsAliasToEnum[position]])}">
       <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -144,7 +166,7 @@ export function createWidget<V extends WidgetVariant = 'button'>(options?: Widge
           <rect x="7" y="7" width="10" height="11" fill="white"/>
           <path d="M12 2.25C6.62391 2.25 2.25 6.62391 2.25 12C2.25 17.3761 6.62391 21.75 12 21.75C17.3761 21.75 21.75 17.3761 21.75 12C21.75 6.62391 17.3761 2.25 12 2.25ZM15.5302 14.4698C15.6027 14.5388 15.6608 14.6216 15.7008 14.7133C15.7409 14.805 15.7622 14.9039 15.7635 15.004C15.7648 15.1041 15.746 15.2034 15.7083 15.2961C15.6706 15.3889 15.6147 15.4731 15.5439 15.5439C15.4731 15.6147 15.3889 15.6706 15.2961 15.7083C15.2034 15.746 15.1041 15.7648 15.004 15.7635C14.9039 15.7622 14.805 15.7409 14.7133 15.7008C14.6216 15.6608 14.5388 15.6027 14.4698 15.5302L12 13.0608L9.53016 15.5302C9.38836 15.6649 9.19955 15.7389 9.00398 15.7364C8.8084 15.7339 8.62155 15.6551 8.48325 15.5168C8.34495 15.3785 8.26614 15.1916 8.26364 14.996C8.26114 14.8005 8.33513 14.6116 8.46984 14.4698L10.9392 12L8.46984 9.53016C8.33513 9.38836 8.26114 9.19955 8.26364 9.00398C8.26614 8.8084 8.34495 8.62155 8.48325 8.48325C8.62155 8.34495 8.8084 8.26614 9.00398 8.26364C9.19955 8.26114 9.38836 8.33513 9.53016 8.46984L12 10.9392L14.4698 8.46984C14.6116 8.33513 14.8005 8.26114 14.996 8.26364C15.1916 8.26614 15.3785 8.34495 15.5168 8.48325C15.6551 8.62155 15.7339 8.8084 15.7364 9.00398C15.7389 9.19955 15.6649 9.38836 15.5302 9.53016L13.0608 12L15.5302 14.4698Z" fill="black"/>
         </svg>
-        ${links.map(([link, label], index, arr) => `<a href="${decoder.decode(new Uint8Array(link))}" class="${cls([ClassNames.dialogLink, index === arr.length - 1 ? ClassNames.dialogLinkLast : ''])}" target="_blank">${label}</a>`).join('')}
+        ${links.map(([link, label], index, arr) => `<a href="${decoder.decode(new Uint8Array(link))}" class="${cls([ClassNames.dialogLink, index === arr.length - 1 ? ClassNames.dialogLinkLast : u])}" target="_blank">${label}</a>`).join('')}
       </div>
     </div>
     `;
@@ -160,19 +182,19 @@ export function createWidget<V extends WidgetVariant = 'button'>(options?: Widge
     };
 
     if (variant === 'strip') {
-      const color = (settings as WidgetSettings<'strip'>).color!;
+      const color = (settings as WidgetOptions['strip'])!.color!;
       styles[ClassNames.stripRoot] = defaultStyles[ClassNames.stripRoot];
       styles[colorsAliasToEnum[color]] = defaultStyles[colorsAliasToEnum[color]];
       return;
     }
 
-    const position = (settings as WidgetSettings<'button'>).position!;
+    const position = (settings as WidgetOptions['button'])!.position!;
     styles[ClassNames.buttonRoot] = defaultStyles[ClassNames.buttonRoot];
     styles[positionsAliasToEnum[position]] = defaultStyles[positionsAliasToEnum[position]];
   }
 
-  function cls(classNames: (string | ClassNames)[]): string {
-    return classNames.filter((className) => typeof className === 'string' ? className.length > 0 : true)
+  function cls(classNames: (ClassNames | undefined)[]): string {
+    return classNames.filter((className) => isDefined(className))
       .map((className) => `${prefix}-${className}`).join(' ');
   }
 
@@ -224,18 +246,24 @@ export function createWidget<V extends WidgetVariant = 'button'>(options?: Widge
 
     attachStyles();
 
-    const node = attachElementFromHtml(element, widgetHtml());
+    const node = attachElementFromHtml(element, widgetHtml(), variant === 'strip' ? 'above' : 'under');
 
     node.addEventListener('click', showDialog);
 
     mounted = true;
   }
 
-  function attachElementFromHtml(container: HTMLElement, html: string): HTMLDivElement {
+  function attachElementFromHtml(container: HTMLElement, html: string, insert?: 'under' | 'above'): HTMLDivElement {
+    insert ??= 'under';
     const root = doc.createElement('div');
     root.innerHTML = html;
     const node = root.querySelector('div')!;
-    container.appendChild(node);
+
+    if (insert === 'above' && container.firstElementChild !== null) {
+      container.insertBefore(node, container.firstElementChild);
+    } else {
+      container.appendChild(node);
+    }
 
     return node;
   }

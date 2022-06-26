@@ -17,7 +17,7 @@ const template = (options: RollupHtmlTemplateOptions | undefined) => `
     <script type="text/javascript">
       (function (w, d, t, u, a, m, f) {
         f = function () {
-          w.StandForUkraineWidget.init('#root', { variant: 'strip', settings: { zIndex: 20000 } });
+          w.StandForUkraineWidget.init('#root', { variant: 'strip', strip: { zIndex: 20000 } });
         };
 
         a = d.createElement(t);
