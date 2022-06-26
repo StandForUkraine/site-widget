@@ -25,7 +25,7 @@
     window,
     document,
     'script',
-    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.6/artifacts/index.min.js'
+    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.7/artifacts/index.min.js'
   );
 </script>
 ```
@@ -52,7 +52,7 @@ function loadWidgetCode() {
   tag.async = 1;
   tag.onload = init; // mount the widget;
   tag.src =
-    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.6/artifacts/index.min.js';
+    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.7/artifacts/index.min.js';
   firstTag.parentNode.insertBefore(a, m);
 }
 ```
