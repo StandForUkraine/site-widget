@@ -10,7 +10,7 @@
     "clean:dist": "node -e \"require('fs').rmSync('./dist', { force: true, recursive: true })\"",
     "clean:artifacts": "node -e \"require('fs').rmSync('./artifacts', { force: true, recursive: true })\"",
     "version": "npm run build && npm run gen:readme && git add -A .",
-    "gen:readme": "sed -e \"s/\\${version}/$(node -e \"console.log(require('./package.json').version)\")/\" TEMPLATE.md > README.md"
+    "gen:readme": "cat tool/readme.banner.md > README.md && sed -e \"s/\\${version}/$(node -e \"console.log(require('./package.json').version)\")/\" tool/readme.template.md >> README.md"
   },
   "author": "KonstantinKai<kosyak46@gmail.com>",
   "license": "MIT",

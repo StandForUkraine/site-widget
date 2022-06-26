@@ -34,6 +34,11 @@
 ```js
 let loaded = false;
 function init() {
+  if (!loaded) {
+    loadWidgetCode();
+    return;
+  }
+
   loaded = true;
   window.unmountStandForUkraineWidget = window.StandForUkraineWidget.init(
     document.body /* options go here */,
@@ -41,8 +46,6 @@ function init() {
 }
 
 function loadWidgetCode() {
-  if (loaded) return;
-
   const tag = document.createElement('script');
   const firstTag = document.getElementsByTagName('script')[0];
   tag.async = 1;
