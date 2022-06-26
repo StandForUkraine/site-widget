@@ -9,7 +9,7 @@
     "watch": "npm run clean:dist && rollup --watch --config rollup/rollup.config.dev.ts --configPlugin typescript",
     "clean:dist": "node -e \"require('fs').rmSync('./dist', { force: true, recursive: true })\"",
     "clean:artifacts": "node -e \"require('fs').rmSync('./artifacts', { force: true, recursive: true })\"",
-    "preversion": "npm run build"
+    "postversion": "npm run build"
   },
   "author": "KonstantinKai<kosyak46@gmail.com>",
   "license": "MIT",
