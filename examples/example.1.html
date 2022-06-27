@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Stand for Ukraine widget 1</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    (function (w, d, t, u, a, m, f) {
+      f = function () {
+        w.StandForUkraineWidget.init('#root');
+      };
+
+      a = d.createElement(t);
+      m = d.getElementsByTagName(t)[0];
+      a.async = 1;
+      a.onload = f;
+      a.src = u;
+      m.parentNode.insertBefore(a, m);
+    })(
+      window,
+      document,
+      'script',
+      'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.7/artifacts/index.min.js'
+    );
+  </script>
+  <div id="root">
+    <img src="https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.7/examples/background.jpg" />
+  </div>
+</body>
+
+</html>

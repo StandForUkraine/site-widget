@@ -94,8 +94,8 @@ type WidgetVariantCommonSettings = {
 
 export interface WidgetOptions {
   variant?: WidgetVariant;
-  ['button']?: WidgetVariantCommonSettings & { position?: WidgetPosition; };
-  ['strip']?: WidgetVariantCommonSettings & { color?: WidgetStripColor; position?: 'static' | 'fixed'; };
+  button?: WidgetVariantCommonSettings & { position?: WidgetPosition; };
+  strip?: WidgetVariantCommonSettings & { color?: WidgetStripColor; position?: 'static' | 'fixed'; };
 }
 
 type WidgetResult = [
@@ -117,9 +117,9 @@ const colorsAliasToEnum: Record<WidgetStripColor, ClassNames> = {
 
 const vendor = 'stand-for-ukraine';
 
-const defaultSettings = {
-  'button': { position: 'bottom-left', margin: 20, zIndex: 10000 },
-  'strip': { color: 'black', zIndex: 10000, margin: 0, position: 'fixed' },
+const defaultSettings: Omit<WidgetOptions, 'variant'> = {
+  button: { position: 'bottom-left', margin: 20, zIndex: 10000 },
+  strip: { color: 'black', zIndex: 10000, margin: 0, position: 'fixed' },
 };
 
 export function createWidget(options?: WidgetOptions): WidgetResult {
