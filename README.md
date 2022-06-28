@@ -3,6 +3,7 @@
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/StandForUkraine/site-widget?label=latest)
 ![GitHub file size in bytes](https://img.shields.io/github/size/StandForUkraine/site-widget/artifacts/index.min.js?label=filesize)
+[![](https://data.jsdelivr.com/v1/package/gh/StandForUkraine/site-widget/badge?style=rounded)](https://www.jsdelivr.com/package/gh/StandForUkraine/site-widget)
 
 ### Usage:
 
@@ -25,7 +26,7 @@
     window,
     document,
     'script',
-    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.7/artifacts/index.min.js'
+    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.8/artifacts/index.min.js'
   );
 </script>
 ```
@@ -52,7 +53,7 @@ function loadWidgetCode() {
   tag.async = 1;
   tag.onload = init; // mount the widget;
   tag.src =
-    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.7/artifacts/index.min.js';
+    'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@0.0.8/artifacts/index.min.js';
   firstTag.parentNode.insertBefore(a, m);
 }
 ```
