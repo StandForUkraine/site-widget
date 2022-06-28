@@ -2,6 +2,7 @@
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/StandForUkraine/site-widget?label=latest)
 ![GitHub file size in bytes](https://img.shields.io/github/size/StandForUkraine/site-widget/artifacts/index.min.js?label=filesize)
+[![](https://data.jsdelivr.com/v1/package/gh/StandForUkraine/site-widget/badge?style=rounded)](https://www.jsdelivr.com/package/gh/StandForUkraine/site-widget)
 
 ### Usage:
 

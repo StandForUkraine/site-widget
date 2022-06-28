@@ -1,6 +1,6 @@
 import StandForUkraineWidget from './index';
 
 StandForUkraineWidget.init(document.body, {
-  variant: 'strip',
+  variant: 'button',
   strip: { color: 'ua-colors', margin: 20, position: 'static', }
 });

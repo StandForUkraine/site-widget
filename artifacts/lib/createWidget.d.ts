@@ -7,10 +7,10 @@ declare type WidgetVariantCommonSettings = {
 };
 export interface WidgetOptions {
     variant?: WidgetVariant;
-    ['button']?: WidgetVariantCommonSettings & {
+    button?: WidgetVariantCommonSettings & {
         position?: WidgetPosition;
     };
-    ['strip']?: WidgetVariantCommonSettings & {
+    strip?: WidgetVariantCommonSettings & {
         color?: WidgetStripColor;
         position?: 'static' | 'fixed';
     };
