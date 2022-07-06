@@ -12,9 +12,9 @@ const template = (options: RollupHtmlTemplateOptions | undefined) => `
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>${options!.title}</title>
+    <script id="sfuw" type="text/javascript" async="true" src="http://localhost:${port}/index.dev.iife.js?variant=strip&strip-color=ua-colors"></script>
   </head>
   <body>
-    <script id="sfuw" type="text/javascript" async="true" src="http://localhost:${port}/index.dev.iife.js?variant=strip&strip-color=ua-colors"></script>
     <div id="root"></div>
   </body>
 </html>
