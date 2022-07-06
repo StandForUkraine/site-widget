@@ -25,10 +25,9 @@ export const exampleHtmlTemplate = (options: {
       display: block;
     }
   </style>
-</head>
-
-<body>
   <script id="sfuw" type="text/javascript" async="true" src="https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@${options.version}/artifacts/index.iife.min.js${options.params}"></script>
+</head>
+<body>
   <div id="root">
     <img src="https://github.com/StandForUkraine/site-widget/raw/main/tool/background.jpg" width="100%" />
     <img src="https://github.com/StandForUkraine/site-widget/raw/main/tool/background.jpg" width="100%" />
