@@ -14,7 +14,7 @@ const banner = `/**
  * @author ${pkg.author}
  */`;
 
-const config: RollupOptions = {
+const config1: RollupOptions = {
   ...commonConfig,
   output: {
     ...commonConfig.output,
@@ -42,15 +42,47 @@ const config: RollupOptions = {
       replace: '',
     }),
     filesize(),
-    ...(examples.map((initFn, index) => html({
+  ]
+};
+
+const config2: RollupOptions = {
+  ...commonConfig,
+  input: './src/index.iife.ts',
+  output: {
+    ...commonConfig.output,
+    compact: true,
+    file: `artifacts/index.iife.min.js`,
+    banner,
+  },
+  plugins: [
+    ...commonConfig.plugins as never,
+    terser({
+      format: {
+        comments: (node, comment): boolean => {
+          const text = comment.value;
+          const type = comment.type;
+          if (type === 'comment2') {
+            return /@preserve/i.test(text);
+          }
+
+          return false;
+        }
+      }
+    }),
+    modify({
+      find: /\n\s+/,
+      replace: '',
+    }),
+    filesize(),
+    ...(examples.map((params, index) => html({
       template: () => exampleHtmlTemplate({
         version: pkg.version,
         title: `Stand for Ukraine widget ${index + 1}`,
-        initFn,
+        params,
       }),
       fileName: `examples/example.${index + 1}.html`,
     }))),
   ]
 };
 
-export default config;
+export default [config1, config2];

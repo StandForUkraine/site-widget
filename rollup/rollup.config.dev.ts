@@ -14,25 +14,7 @@ const template = (options: RollupHtmlTemplateOptions | undefined) => `
     <title>${options!.title}</title>
   </head>
   <body>
-    <script type="text/javascript">
-      (function (w, d, t, u, a, m, f) {
-        f = function () {
-          w.StandForUkraineWidget.init('#root', { variant: 'strip', strip: { zIndex: 20000 } });
-        };
-
-        a = d.createElement(t);
-        m = d.getElementsByTagName(t)[0];
-        a.async = 1;
-        a.onload = f;
-        a.src = u;
-        m.parentNode.insertBefore(a, m);
-      })(
-        window,
-        document,
-        'script',
-        '//localhost:${port}/index.dev.iife.js'
-      );
-    </script>
+    <script id="sfuw" type="text/javascript" async="true" src="http://localhost:${port}/index.dev.iife.js?variant=strip&strip-color=ua-colors"></script>
     <div id="root"></div>
   </body>
 </html>
@@ -57,9 +39,11 @@ const configs: RollupOptions[] = [
   },
   {
     ...commonConfig,
+    input: './src/index.iife.ts',
     output: {
       ...commonConfig.output,
       file: `dist/index.dev.iife.js`,
+      format: 'iife',
     },
     plugins: [
       ...commonConfig.plugins as never,

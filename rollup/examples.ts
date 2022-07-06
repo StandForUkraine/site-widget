@@ -1,13 +1,11 @@
 export const examples = [
-  `w.StandForUkraineWidget.init('#root');`,
-  `w.StandForUkraineWidget.init('#root', { variant: 'strip', strip: { position: 'static' }});`,
-  `w.StandForUkraineWidget.init('#root', { variant: 'strip', strip: { position: 'static', color: 'ua-colors' }});`,
-  `w.StandForUkraineWidget.init('#root', { variant: 'strip' });`,
-  `w.StandForUkraineWidget.init('#root', { variant: 'strip', strip: { color: 'ua-colors' }});`,
+  `?variant=button&button-positon=bottom-left`,
+  `?variant=strip&strip-color=ua-colors`,
+  `?variant=strip&strip-color=black`,
 ];
 
 export const exampleHtmlTemplate = (options: {
-  initFn: string;
+  params: string;
   version: string;
   title: string;
 }): string => `
@@ -30,25 +28,7 @@ export const exampleHtmlTemplate = (options: {
 </head>
 
 <body>
-  <script type="text/javascript">
-    (function (w, d, t, u, a, m, f) {
-      f = function () {
-        ${options.initFn}
-      };
-
-      a = d.createElement(t);
-      m = d.getElementsByTagName(t)[0];
-      a.async = 1;
-      a.onload = f;
-      a.src = u;
-      m.parentNode.insertBefore(a, m);
-    })(
-      window,
-      document,
-      'script',
-      'https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@${options.version}/artifacts/index.min.js'
-    );
-  </script>
+  <script id="sfuw" type="text/javascript" async="true" src="https://cdn.jsdelivr.net/gh/StandForUkraine/site-widget@${options.version}/artifacts/index.iife.min.js${options.params}"></script>
   <div id="root">
     <img src="https://github.com/StandForUkraine/site-widget/raw/main/tool/background.jpg" width="100%" />
     <img src="https://github.com/StandForUkraine/site-widget/raw/main/tool/background.jpg" width="100%" />

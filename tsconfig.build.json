@@ -5,5 +5,5 @@
     "declaration": true,
     "declarationDir": "./artifacts"
   },
-  "exclude": ["rollup/**/*", "src/**/*.dev.ts"]
+  "exclude": ["rollup/**/*", "src/**/*.dev.ts", "src/**/*.iife.ts"]
 }

@@ -119,7 +119,7 @@ const vendor = 'stand-for-ukraine';
 
 const defaultSettings: Omit<WidgetOptions, 'variant'> = {
   button: { position: 'bottom-left', margin: 20, zIndex: 10000 },
-  strip: { color: 'black', zIndex: 10000, margin: 0, position: 'fixed' },
+  strip: { color: 'black', zIndex: 10000, margin: 0, position: 'static' },
 };
 
 export function createWidget(options?: WidgetOptions): WidgetResult {
@@ -127,10 +127,14 @@ export function createWidget(options?: WidgetOptions): WidgetResult {
   const id = gid++;
   const prefix = `${vendor}-${id}`;
   const variant = options?.variant ?? 'button';
-  const settings = {
-    ...defaultSettings[variant],
-    ...(options?.[variant] ?? {}),
-  };
+  const userOptions = (options?.[variant] ?? {}) as Record<string, string | number>;
+  const settings = Object.keys(userOptions).reduce((target, key) => {
+    if (isDefined(userOptions[key])) {
+      target[key] = userOptions[key];
+    }
+
+    return target;
+  }, defaultSettings[variant] as Record<string, string | number>);
 
   let mounted = false;
   let styles: Partial<Record<ClassNames, string | ((params: Record<string, string | number>) => string)>>;
